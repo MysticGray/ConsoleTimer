@@ -10,14 +10,14 @@ namespace ConsoleTimer
        
         private static DateTime _endTime { get; set; }
         private static Timer _timer { get; set; }
-
+        private static TimeSpan _timeRemaining { get; set; }
         public CountdownTimer(int secondsToRun, int timeInMs = 20)
         {
             _endTime = DateTime.Now.AddSeconds(secondsToRun);
             _timer = new Timer(timeInMs);
         }
 
-        public void CountDown()
+        public void CountDown(TimerApp app)
         {
             // Create a timer with a two second interval.
            
@@ -25,6 +25,17 @@ namespace ConsoleTimer
             _timer.Elapsed += CountDownEvent;
             _timer.AutoReset = true;
             _timer.Enabled = true;
+            
+            while (_timeRemaining.TotalMilliseconds > -1)
+            {
+
+            }
+            TimerFinished();
+            if (app.RestartMenu())
+            {
+                app.Run();
+            };
+
 
         }
 
@@ -32,9 +43,9 @@ namespace ConsoleTimer
         {
 
 
-            var timeRemaining = _endTime.Subtract(e.SignalTime);
+            _timeRemaining = _endTime.Subtract(e.SignalTime);
 
-            if (timeRemaining.TotalSeconds < 5)
+            if (_timeRemaining.TotalSeconds < 5)
             {
                 Console.ForegroundColor = ConsoleColor.DarkYellow;
             }
@@ -42,8 +53,8 @@ namespace ConsoleTimer
             // Console.WriteLine(timeRemaining);
             // Console.Write($"\r\rTotal Seconds left: {timeRemaining.TotalSeconds}");
 
-            Console.Write("\rTime left: {0:HH:mm:ss.fff} ", timeRemaining.ToString());
-            if (timeRemaining.TotalMilliseconds < 0)
+            Console.Write("\rTime left: {0:HH:mm:ss.fff} ", _timeRemaining.ToString());
+            if (_timeRemaining.TotalMilliseconds < 0)
             {
                 _timer.Stop();
                 _timer.Dispose();
@@ -54,20 +65,8 @@ namespace ConsoleTimer
         private static void TimerFinished()
         {
             Console.ForegroundColor = ConsoleColor.Red;
-
             Console.Write($"\r\rTimer finished 00:00:00:00000");
-
-            _timer = new System.Timers.Timer(500);
-            // Hook up the Elapsed event for the timer. 
-            _timer.Elapsed += OnTimerFinishedEvent;
-            _timer.AutoReset = true;
-            _timer.Enabled = true;
-
-            _timer = new System.Timers.Timer(1000);
-            // Hook up the Elapsed event for the timer. 
-            _timer.Elapsed += ClearScreenEvent;
-            _timer.AutoReset = true;
-            _timer.Enabled = true;
+            Console.ResetColor();
 
         }
 
