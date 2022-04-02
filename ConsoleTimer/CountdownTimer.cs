@@ -31,10 +31,10 @@ namespace ConsoleTimer
 
             }
             TimerFinished();
-            if (app.RestartMenu())
-            {
-                app.Run();
-            };
+           // if (app.RestartMenu())
+          //  {
+           //     app.Run();
+           // };
 
 
         }

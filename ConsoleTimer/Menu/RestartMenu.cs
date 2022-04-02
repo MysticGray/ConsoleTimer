@@ -4,23 +4,25 @@ using System.Text;
 using static System.Console;
 namespace ConsoleTimer
 {
-    class RestartMenu
+    public class RestartMenu : MultiChoiceMenuBase
     {
-        private static string[] _confirmOptions;
-        private int _selectedIndex;
-        private string _mainMenuTitle;
-        public RestartMenu()
+        //private static string[] _options;
+        //private int _selectedIndex;
+        //private string _menuTitle;
+        public RestartMenu(string[] options, string title) : base(options, title)
         {
-            _mainMenuTitle = "Restart?\n";
-            _selectedIndex = 0;
-            _confirmOptions = new string[] { "Y", "N" };
+
+        }
+        public override void Run ()
+        {
+            Display();
         }
         private void Display()
         {
-            WriteLine(_mainMenuTitle);
-            for (int i = 0; i < _confirmOptions.Length; i++)
+            WriteLine(_menuTitle);
+            for (int i = 0; i < _options.Length; i++)
             {
-                string currentOptions = _confirmOptions[i];
+                string currentOptions = _options[i];
                 string selectedPrefix;
                 string selectedPostfix;
                 if (i == _selectedIndex)
@@ -58,7 +60,7 @@ namespace ConsoleTimer
                     _selectedIndex--;
                     if (_selectedIndex == -1)
                     {
-                        _selectedIndex = _confirmOptions.Length - 1;
+                        _selectedIndex = _options.Length - 1;
                     }
                     
                     
@@ -66,7 +68,7 @@ namespace ConsoleTimer
                 if (keyPressed == ConsoleKey.DownArrow)
                 {
                     _selectedIndex++;
-                    if (_selectedIndex > _confirmOptions.Length - 1) 
+                    if (_selectedIndex > _options.Length - 1) 
                     {
                         _selectedIndex = 0;
                     }

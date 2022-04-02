@@ -9,9 +9,16 @@ namespace ConsoleTimer
         {
             ConsoleHelper.SetCurrentFont("Consolas", 32);
             //Console.Write(AsciiMap.GetAciiText("2"));
-            TimerApp app = new TimerApp();
+            // Test Restart menu
+           // string[] menuChoices = new string[] { "Y", "N" };
+           // RestartMenu rm = new RestartMenu(menuChoices, "Restart Menu");
+          //  IMultiChoiceMenuBase restartMenu = Factory.CreateRestartMenu();
+          //  restartMenu.Run();
+            IIntMenuBase mainMenu = Factory.CreateMainMenu();
+            mainMenu.Run();
+            TimerApp app = new TimerApp(mainMenu.GetIntegerResponse());
             app.Run();
-            Console.ReadKey(true);
+            //Console.ReadKey(true);
         }      
     }
 }
